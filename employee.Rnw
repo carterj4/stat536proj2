@@ -23,6 +23,8 @@
 \MakeOuterQuote{"}
 
 \newcommand{\X}{\mathbf{X}}
+\newcommand{\Y}{\mathbf{Y}}
+\newcommand{\y}{\mathbf{y}}
 \newcommand{\x}{\mathbf{x}}
 \newcommand{\Z}{\mathbf{Z}}
 \newcommand{\z}{\mathbf{z}}
@@ -67,12 +69,12 @@ my.summary <- function(x) c(mean=mean(x), sd=sd(x), n=length(x))
 \begin{abstract}
 % We would like to encourage you to list your keywords within
 % the abstract section using the \keywords{...} command.
-
 \keywords{}
 \end{abstract}
 %
 \section{Introduction}
 % Does the report sufficiently describe the background of the problem?
+Companies are invested in having productive employees. Clearly increased employee productivity increases a companies profits. Generally it is thought that happy employees will be more productive, but how much does employee hapiness actually affect job performance? 
 
 \section{Data}
 % Does the report sufficiently describe and plot the data and point out 
@@ -81,10 +83,29 @@ my.summary <- function(x) c(mean=mean(x), sd=sd(x), n=length(x))
 \section{Methods}
 % Is there a description about why this model accomplishes the goals stated above?
 % Is there a description about why this model accounts for the problems/small nuances of the data?
+% Were any explicit or implicit assumptions needed to use the model adequately explained?
+Proceeding with multiple linear regression using only the complete observations in the dataset would effectively throw out 72\% of the observations. This is an extreme loss of information. 
+
+We will use the multivariate normal distribution (MVN) as a model for our data. The MVN model assumes that the variables of each observation, $Y_i$ are jointly distributed multivariate normal with a mean vector $\mathbf{\mu}$ and covariance matrix $\mathbf{\Sigma}$. We further assume that each observation $\Y_i$ is independent.
+$$
+\Y_i \overset{\mathrm{iid}}{\sim} \mathcal{MVN}(\mathbf{\mu},\mathbf{\Sigma})
+$$
+If we partition the observation vector into $\Y_1$ and $\Y_2$ and the covariance matrix we can find the joint conditional distribution of $\Y_1|\Y_2$. 
+$$
+\Y_1|\Y_2 \sim \mathcal{MVN}(\mathbf{\mu}_{1|2},\mathbf{\Sigma}_{1|2})
+$$
+where 
+\begin{align*}
+\mathbf{\mu}_{1|2} &= \mathbf{\mu}_1 + \mathbf{\Sigma}_{12} \mathbf{\Sigma}_{22}^{-1} (\Y_2 - \mathbf{\mu}_2) \\
+\mathbf{\Sigma}_{1|2}
+\end{align*}
+Using the MVN distribution will allow us to impute the missing values in our dataset and then obtain estimates for the effect of job satisfaction and well being on job performance. Repeating the imputations multiple times will allow us to explore a whole range of possible values for the missing datapoints and thus see how different datasets affect our estimate. 
+
+
+
 \subsection{Model}
 % Was the model written out correctly?
 % Were any greek letters used clearly defined?
-% Were any explicit or implicit assumptions needed to use the model adequately explained?
 
 
 \subsection{Model Justification}

@@ -72,11 +72,38 @@ my.summary <- function(x) c(mean=mean(x), sd=sd(x), n=length(x))
 \end{abstract}
 %
 \section{Introduction}
+% Does the report sufficiently describe the background of the problem?
+
+\section{Data}
+% Does the report sufficiently describe and plot the data and point out 
+%  any problems/issues? 
+% Are the goals of the analysis clearly stated?
+\section{Methods}
+% Is there a description about why this model accomplishes the goals stated above?
+% Is there a description about why this model accounts for the problems/small nuances of the data?
+\subsection{Model}
+% Was the model written out correctly?
+% Were any greek letters used clearly defined?
+% Were any explicit or implicit assumptions needed to use the model adequately explained?
 
 
+\subsection{Model Justification}
+% Does the report justify why variables were included and/or excluded?
+% Are the assumptions of the model justified (e.g. via exploratory analysis)?
+
+\subsection{Performance Evaluation}
+% Does the report evaluate how well the model fits the data?
+% If appropriate, does the report describe how well the model predicts?
+\section{Results}
+% Does the report adequately answer the questions posed in the case study?
+% Were estimates of the parameters and their uncertainties given?
+% Were the parameter estimates interpreted in the context of the problem?
+% Did the report summarize the main points of the results in non-statistical terms? % Were any figures or tables properly discussed in the text?
 
 \section{Conclusion}
-
+% Did the report summarize how the goals of the study were met?
+% Did the report discuss any shortcomings of the approach/model used?
+% Did the report provide suggestions for “next steps” in the analysis or further questions that may be of interest?
 %
 % ---- Bibliography ----
 %

@@ -1,18 +1,4 @@
-%%%%%%%%%%%%%%%%%%%% author.tex %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
-% sample root file for your "contribution" to a proceedings volume
-%
-% Use this file as a template for your own input.
-%
-%%%%%%%%%%%%%%%% Springer %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
 \documentclass{svproc}
-%
-% RECOMMENDED %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
-
-% to typeset URLs, URIs, and DOIs
 \usepackage{url}
 \def\UrlFont{\rmfamily}
 \usepackage{amssymb,amsmath,amsfonts}
@@ -28,16 +14,22 @@
 \newcommand{\z}{\mathbf{z}}
 \newcommand{\Th}{\mathbf{\Theta}}
 
-% for packages
 \newcommand{\pkg}[1]{{\fontseries{b}\selectfont #1}} 
 
 \DeclareMathOperator*{\argmin}{arg\,min}
 
+\setcounter{secnumdepth}{3}
+\numberwithin{equation}{section}
+
+\usepackage{setspace}
+%\onehalfspacing
 
 <<initiate,echo=FALSE>>=
 library(xtable)
 library(car)
-employee <- read.table("Employee.txt", header=TRUE, sep=" ")
+employee <- emp <- read.table("Employee.txt", header=TRUE, sep=" ")
+emp$ID <- NULL
+emp <- emp[,c(1:4,6,5)]
 print.vector <- function(x,digits=2) {
   cat("(",paste0(round(x,digits),collapse = ", "),").", sep="")
 }
@@ -45,38 +37,73 @@ my.summary <- function(x) c(mean=mean(x), sd=sd(x), n=length(x))
 @
 
 \begin{document}
-% \raggedbottom
-\mainmatter              % start of a contribution
-%
+\mainmatter
 \title{Verifying the relationship between employee satisfaction and job performance}
-%
-\titlerunning{Credit}  % abbreviated title (for running head)
-%                                     also used for the TOC unless
-%                                     \toctitle is used
-%
+\titlerunning{Credit}
 \author{Brandon Carter, Zach Horton}
-%
-\authorrunning{Carter and Horton} % abbreviated author list (for running head)
-%
+\authorrunning{Carter and Horton}
 \institute{Brigham Young University}
-%%%% list of authors for the TOC (use if author list has to be modified)
 
-\maketitle              % typeset the title of the contribution
-
-
+\maketitle
 \begin{abstract}
-% We would like to encourage you to list your keywords within
-% the abstract section using the \keywords{...} command.
-
-\keywords{}
+This is a generic abstract. FIX ME!
+%\keywords{}
 \end{abstract}
-%
+
 \section{Introduction}
 % Does the report sufficiently describe the background of the problem?
 
-\section{Data}
+\section{Data} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Does the report sufficiently describe and plot the data and point out 
 %  any problems/issues? 
+The data consist of responses from 480 university employees on 6 variables described below.
+\begin{itemize}
+\item \emph{Age}: The age of the employee measured in years
+\item \emph{Tenure}: Number of years employed at the university
+\item \emph{WellBeing}: Score from 1 to 10 measuring the happiness of the employee
+\item \emph{JobSat}: Score from 1 to 10 measureing the satisfaction of the employee
+\item \emph{IQ}: The IQ score of the employee
+\item \emph{JobPerf}: Score from 1 to 10 measuring the performance of the employee
+\end{itemize}
+Figure \ref{fig:pairs} shows the pairs plot between all the variables.
+\begin{figure}[ht]
+\centering
+\begin{minipage}{.6\textwidth}
+\centering
+<<pairs, echo = FALSE>>=
+plot(emp, cex = 0.5)
+@
+\end{minipage}
+\caption{Pairs Plot for Employee Data} \label{fig:pairs}
+\end{figure}
+Graphically the data appear to be easy to work with, however there is a problem with missing data. Of the 480 observed employee responses, \Sexpr{miss <- sum(apply(emp,1,FUN = function(x) any(is.na(x)))); miss} or \Sexpr{round(miss/480*100,0)}\% are missing at least one variable. Table \ref{tab:miss} shows the number of missing values in each variable and table \ref{tab:cmiss} shows the total counts of the number of missing values.
+
+\begin{table}[ht]
+\centering
+\begin{minipage}{.45\textwidth}
+\centering
+\caption{Missing Data Counts By Variable} \label{tab:miss}
+\begin{tabular}{rrrrrrr}
+\hline
+& Age & Tenure & WellBeing & JobSat & IQ & JobPerf\\
+\hline
+& 0 & 0 & 160 & 160 & 0 & 64 \\
+\hline
+\end{tabular}
+\end{minipage}
+\begin{minipage}{.45\textwidth}
+\centering
+\caption{Number Missing Summary} \label{tab:cmiss}
+\begin{tabular}{r|rrr}
+\hline
+Number of Variables Missing & 0 & 1 & 2 \\
+\hline
+Number of Observations & 131 & 314 & 35 \\
+\hline
+\end{tabular}
+\end{minipage}
+\end{table}
+
 % Are the goals of the analysis clearly stated?
 \section{Methods}
 % Is there a description about why this model accomplishes the goals stated above?

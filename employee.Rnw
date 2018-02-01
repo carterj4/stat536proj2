@@ -37,11 +37,10 @@
 <<initiate,echo=FALSE>>=
 library(xtable)
 library(car)
-
+employee <- read.table("Employee.txt", header=TRUE, sep=" ")
 print.vector <- function(x,digits=2) {
   cat("(",paste0(round(x,digits),collapse = ", "),").", sep="")
 }
-
 my.summary <- function(x) c(mean=mean(x), sd=sd(x), n=length(x))
 @
 
@@ -57,7 +56,7 @@ my.summary <- function(x) c(mean=mean(x), sd=sd(x), n=length(x))
 %
 \author{Brandon Carter, Zach Horton}
 %
-\authorrunning{Brandon Carter} % abbreviated author list (for running head)
+\authorrunning{Carter and Horton} % abbreviated author list (for running head)
 %
 \institute{Brigham Young University}
 %%%% list of authors for the TOC (use if author list has to be modified)
@@ -75,6 +74,7 @@ my.summary <- function(x) c(mean=mean(x), sd=sd(x), n=length(x))
 \section{Introduction}
 
 
+
 \section{Conclusion}
 
 %
@@ -82,7 +82,5 @@ my.summary <- function(x) c(mean=mean(x), sd=sd(x), n=length(x))
 %
 %\bibliographystyle{plain}
 %\bibliography{comics}
-
-
 
 \end{document}

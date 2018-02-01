@@ -1,0 +1,88 @@
+%%%%%%%%%%%%%%%%%%%% author.tex %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% sample root file for your "contribution" to a proceedings volume
+%
+% Use this file as a template for your own input.
+%
+%%%%%%%%%%%%%%%% Springer %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\documentclass{svproc}
+%
+% RECOMMENDED %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+
+% to typeset URLs, URIs, and DOIs
+\usepackage{url}
+\def\UrlFont{\rmfamily}
+\usepackage{amssymb,amsmath,amsfonts}
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx}
+\usepackage [english]{babel}
+\usepackage [autostyle, english = american]{csquotes}
+\MakeOuterQuote{"}
+
+\newcommand{\X}{\mathbf{X}}
+\newcommand{\x}{\mathbf{x}}
+\newcommand{\Z}{\mathbf{Z}}
+\newcommand{\z}{\mathbf{z}}
+\newcommand{\Th}{\mathbf{\Theta}}
+
+% for packages
+\newcommand{\pkg}[1]{{\fontseries{b}\selectfont #1}} 
+
+\DeclareMathOperator*{\argmin}{arg\,min}
+
+
+<<initiate,echo=FALSE>>=
+library(xtable)
+library(car)
+
+print.vector <- function(x,digits=2) {
+  cat("(",paste0(round(x,digits),collapse = ", "),").", sep="")
+}
+
+my.summary <- function(x) c(mean=mean(x), sd=sd(x), n=length(x))
+@
+
+\begin{document}
+% \raggedbottom
+\mainmatter              % start of a contribution
+%
+\title{Verifying the relationship between employee satisfaction and job performance}
+%
+\titlerunning{Credit}  % abbreviated title (for running head)
+%                                     also used for the TOC unless
+%                                     \toctitle is used
+%
+\author{Brandon Carter, Zach Horton}
+%
+\authorrunning{Brandon Carter} % abbreviated author list (for running head)
+%
+\institute{Brigham Young University}
+%%%% list of authors for the TOC (use if author list has to be modified)
+
+\maketitle              % typeset the title of the contribution
+
+
+\begin{abstract}
+% We would like to encourage you to list your keywords within
+% the abstract section using the \keywords{...} command.
+
+\keywords{}
+\end{abstract}
+%
+\section{Introduction}
+
+
+\section{Conclusion}
+
+%
+% ---- Bibliography ----
+%
+%\bibliographystyle{plain}
+%\bibliography{comics}
+
+
+
+\end{document}

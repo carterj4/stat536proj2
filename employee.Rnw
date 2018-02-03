@@ -75,7 +75,7 @@ Figure \ref{fig:pairs} shows the pairs plot between all the variables.
 \begin{minipage}{.6\textwidth}
 \centering
 <<pairs, echo = FALSE>>=
-plot(emp, cex = 0.5)
+pairs(JobPerf ~ WellBeing + JobSat + IQ + Age + Tenure, data=emp, cex=0.5)
 @
 \end{minipage}
 \caption{Pairs Plot for Employee Data} \label{fig:pairs}
@@ -119,9 +119,10 @@ Missing data can be difficult to deal with because the reason is often unknown. 
 Proceeding with multiple linear regression using only the complete observations in the dataset would effectively throw out 72\% of the observations. This is an extreme loss of information. 
 
 We will use the multivariate normal distribution (MVN) as a model for our data. The MVN model assumes that the variables of each observation, $Y_i$ are jointly distributed multivariate normal with a mean vector $\mathbf{\mu}$ and covariance matrix $\mathbf{\Sigma}$. We further assume that each observation $\Y_i$ is independent.
-$$
+\begin{equation}
 \Y_i \overset{\mathrm{iid}}{\sim} \mathcal{MVN}(\mathbf{\mu},\mathbf{\Sigma})
-$$
+\label{mvn}
+\end{equation}
 If we partition the observation vector into $\Y_1$ and $\Y_2$ and the covariance matrix we can find the conditional distribution of $\Y_1|\Y_2$. 
 $$
 \Y_1|\Y_2 \sim \mathcal{MVN}(\mathbf{\mu}_{1|2},\mathbf{\Sigma}_{1|2})
@@ -147,12 +148,27 @@ Using the MVN distribution as a model for the data will allow us to impute the m
 \subsection{Model}
 % Was the model written out correctly?
 % Were any greek letters used clearly defined?
-
+In our model for the data we assume that the measures of job performance, job satisfaction, wellbeing, IQ, age, and tenure are jointly distributed multivariate normal as in equation \ref{mvn}. In particular, this model implicates that each variable is distributed normally and that there is a linear relationship between each pair of variables. Given this model of the data we can easily compute the distribution of job performance given the other covariates and obtain estimates of the effect of job satisfaction and wellbeing on job performance through stochastic multiple imputation.
 
 \subsection{Model Justification}
 % Does the report justify why variables were included and/or excluded?
 % Are the assumptions of the model justified (e.g. via exploratory analysis)?
-
+Figure \ref{fig:pairs} shows the plots of each pair of covariates in our dataset. There does not appear to be any violation of a linear relationship between any of the 
+\begin{figure}
+\centering
+<<histograms,fig.keep='high',echo=FALSE, fig.asp=.7, fig.width=6, out.width="4in">>=
+par(mfrow=c(2,3))
+hist(employee$JobPerf,xlab="Job Performance", main=NULL)
+hist(employee$WellBeing,xlab="Well Being", main=NULL)
+hist(employee$JobSat, xlab="Job Satisfaction", main=NULL)
+hist(employee$IQ, xlab="IQ", main=NULL)
+hist(employee$Age, xlab="Age", main=NULL)
+hist(employee$Tenure, xlab="Tenure", main=NULL)
+par(mfrow=c(1,1))
+@
+\caption{Histograms of All Covariates}
+\label{hist}
+\end{figure}
 \subsection{Performance Evaluation}
 % Does the report evaluate how well the model fits the data?
 % If appropriate, does the report describe how well the model predicts?

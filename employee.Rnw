@@ -108,6 +108,9 @@ Number of Observations & 131 & 314 & 35 \\
 \end{minipage}
 \end{table}
 
+Missing data can be difficult to deal with because the reason is often unknown. Data that are missing at random can be dealt with using imputation techniques, however data that are missing due to a cause significant to the study can mask or obscure what may have otherwise been obvious results. We now investigate properties of the missing observations to see if the missing values appear to be random. 
+
+
 % Are the goals of the analysis clearly stated?
 \section{Methods}
 % Is there a description about why this model accomplishes the goals stated above?

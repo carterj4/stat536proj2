@@ -112,7 +112,6 @@ Missing data can be difficult to deal with because the reason is often unknown. 
 
 \begin{table}[ht]
 \centering
-\centering
 \begin{tabular}{r|rrrrrr}
 \hline
 & Min. & 1st Qu. & Median & Mean & 3rd Qu. & Max. \\
@@ -122,9 +121,9 @@ JobPerf Missing & 2.97 & 4.1375 & 4.615 & 4.475937 & 4.8825 & 5.05 \\
 \hline
 \end{tabular}
 \caption{JobSat Summaries - JobPerf Missing} \label{tab:ps}
-\end{table}
-\begin{table}[ht]
-\centering
+%\end{table}
+%\begin{table}[ht]
+%\centering
 \begin{tabular}{r|rrrrrr}
 \hline
 & Min. & 1st Qu. & Median & Mean & 3rd Qu. & Max. \\

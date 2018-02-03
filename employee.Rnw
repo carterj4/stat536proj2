@@ -194,10 +194,40 @@ par(mfrow=c(1,1))
 \caption{Histograms of All Covariates}
 \label{hist}
 \end{figure}
+<<code, eval=FALSE, echo=FALSE>>=
+load("output.Rbin")
+
+plot(js.b,type="l")
+plot(js.se,type="l")
+plot(wb.b,type="l")
+plot(wb.se,type="l")
+
+mean(wb.b)
+var(wb.b)
+sd(wb.b)
+
+mean(js.b)
+var(js.b)
+sd(js.b)
+
+mean(r2)
+
+wb.v <- mean(wb.se^2) + var(wb.b) + var(wb.b)/M
+wb.fmi <- (var(wb.b) + var(wb.b)/M) / wb.v
+wb.df <- (M-1)/wb.fmi^2
+mean(wb.b) + c(-1,1) * qt(0.975,wb.df) * sqrt(wb.v)
+
+js.v <- mean(js.se^2) + var(js.b) + var(js.b)/M
+js.fmi <- (var(js.b) + var(js.b)/M) / js.v
+js.df <- (M-1)/js.fmi^2
+mean(js.b) + c(-1,1) * qt(0.975,js.df) * sqrt(js.v)
+@
 \subsection{Performance Evaluation}
 % Does the report evaluate how well the model fits the data?
 In order to evaluate how well the model performs on the data, we will report the $R^2$ value, the variance of the model coefficients between imputed datasets, and the traceplots. The average $R^2$ value for this model is ###REPORT###
 % If appropriate, does the report describe how well the model predicts?
+
+
 \section{Results}
 % Does the report adequately answer the questions posed in the case study?
 % Were estimates of the parameters and their uncertainties given?

@@ -196,6 +196,7 @@ par(mfrow=c(1,1))
 \end{figure}
 \subsection{Performance Evaluation}
 % Does the report evaluate how well the model fits the data?
+
 % If appropriate, does the report describe how well the model predicts?
 \section{Results}
 % Does the report adequately answer the questions posed in the case study?

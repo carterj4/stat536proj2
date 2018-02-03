@@ -62,14 +62,24 @@ Companies are invested in having productive employees. Clearly increased employe
 % Does the report sufficiently describe and plot the data and point out 
 %  any problems/issues? 
 The data consist of responses from 480 university employees on 6 variables described below.
-\begin{itemize}
-\item \emph{Age}: The age of the employee measured in years
-\item \emph{Tenure}: Number of years employed at the university
-\item \emph{WellBeing}: Score from 1 to 10 measuring the happiness of the employee
-\item \emph{JobSat}: Score from 1 to 10 measureing the satisfaction of the employee
-\item \emph{IQ}: The IQ score of the employee
-\item \emph{JobPerf}: Score from 1 to 10 measuring the performance of the employee
-\end{itemize}
+\\ \\
+\begin{tabular}{l c l}
+\texttt{Age} & - & The age of the employee measured in years \\
+\texttt{Tenure}& - & Number of years employed at the university \\
+\texttt{WellBeing}& - & Score from 1 to 10 measuring the happiness of the employee \\
+\texttt{JobSat}& - & Score from 1 to 10 measureing the satisfaction of the employee \\
+\texttt{IQ}& - & The IQ score of the employee \\
+\texttt{JobPerf}& - & Score from 1 to 10 measuring the performance of the employee
+\end{tabular}
+\\\\
+% \begin{itemize}
+% \item \emph{Age}: The age of the employee measured in years
+% \item \emph{Tenure}: Number of years employed at the university
+% \item \emph{WellBeing}: Score from 1 to 10 measuring the happiness of the employee
+% \item \emph{JobSat}: Score from 1 to 10 measureing the satisfaction of the employee
+% \item \emph{IQ}: The IQ score of the employee
+% \item \emph{JobPerf}: Score from 1 to 10 measuring the performance of the employee
+% \end{itemize}
 Figure \ref{fig:pairs} shows the pairs plot between all the variables.
 \begin{figure}[ht]
 \centering
@@ -98,7 +108,7 @@ Graphically the data appear to be easy to work with, however there is a problem 
 \end{minipage}
 \begin{minipage}{.4\textwidth}
 \centering
-\begin{tabular}{r|rrr}
+\begin{tabular}{lrrr}
 \hline
 Number of Variables Missing & 0 & 1 & 2 \\
 \hline
@@ -114,27 +124,27 @@ At the end of the day, we want to be able to quantify the relationship between J
 
 \begin{table}[ht]
 \centering
-\begin{tabular}{r|rrrrrr}
+\begin{tabular}{lrrrrrr}
 \hline
-& Min. & 1st Qu. & Median & Mean & 3rd Qu. & Max. \\
+Job Performance & Min. & 1st Qu. & Median & Mean & 3rd Qu. & Max. \\
 \hline
-JobPerf Not Missing & 2.67 & 5.6300 & 6.210 & 6.322539 & 7.0400 & 9.37 \\
-JobPerf Missing & 2.97 & 4.1375 & 4.615 & 4.475937 & 4.8825 & 5.05 \\
+Not Missing & 2.67 & 5.6300 & 6.210 & 6.322539 & 7.0400 & 9.37 \\
+Missing & 2.97 & 4.1375 & 4.615 & 4.475937 & 4.8825 & 5.05 \\
 \hline
 \end{tabular}
-\caption{JobSat Summaries - JobPerf Missing} \label{tab:ps}
+\caption{Job Satistisfaction Summaries by Job Performance Missing} \label{tab:ps}
 %\end{table}
 %\begin{table}[ht]
 %\centering
-\begin{tabular}{r|rrrrrr}
+\begin{tabular}{lrrrrrr}
 \hline
-& Min. & 1st Qu. & Median & Mean & 3rd Qu. & Max. \\
+Job Performance & Min. & 1st Qu. & Median & Mean & 3rd Qu. & Max. \\
 \hline
-JobPerf Not Missing & 2.75 & 5.5850 & 6.410 & 6.343402 & 7.1200 & 9.50 \\
-JobPerf Missing & 3.57 & 4.5500 & 5.560 & 5.530000 & 6.0600 & 8.04 \\
+Not Missing & 2.75 & 5.5850 & 6.410 & 6.343402 & 7.1200 & 9.50 \\
+Missing & 3.57 & 4.5500 & 5.560 & 5.530000 & 6.0600 & 8.04 \\
 \hline
 \end{tabular}
-\caption{WellBeing Missing Summaries} \label{tab:pw}
+\caption{Well Being Summaries by Job Performance Missing} \label{tab:pw}
 \end{table}
 % Are the goals of the analysis clearly stated?
 
@@ -176,9 +186,9 @@ Using the MVN distribution as a model for the data will allow us to impute the m
 % Were any greek letters used clearly defined?
 In our model for the data we assume that the measures of job performance, job satisfaction, wellbeing, IQ, age, and tenure are jointly distributed multivariate normal as in equation \ref{mvn}. In particular, this model implicates that each variable is distributed normally and that there is a linear relationship between each pair of variables. Given this model of the data we can easily compute the distribution of job performance given the other covariates and obtain estimates of the effect of job satisfaction and well being on job performance through stochastic multiple imputation. 
 $$
-\mathrm{E}(\mathtt{JobPerf}|\mathtt{WellBeing},\mathtt{JobSat},\mathtt{Age},\mathtt{Tenure},\mathtt{IQ}) =  \beta_0 + \beta_1 \mathtt{WellBeing} + \beta_2 \mathtt{JobSat} + \beta_3 \mathtt{Age} + \beta_4\mathtt{Tenrue} + \beta_5 \mathtt{IQ}
+\mathrm{E}(\mathtt{JobPerf}|\mathtt{WellBeing},\mathtt{JobSat},\mathtt{IQ},\mathtt{Age},\mathtt{Tenure}) =  \beta_0 + \beta_1 \mathtt{WellBeing} + \beta_2 \mathtt{JobSat} + \beta_3 \mathtt{IQ} + \beta_4\mathtt{Age} + \beta_5 \mathtt{Tenure}
 $$
-
+Here $\beta_0$ represents a baseline job performance for an average employee and each $\beta_i, \; i > 0$ is the the partial effect of each covariate on job performance. For example $\beta_1$ is the expected increase in job performance if well being increases by one, holding all other variables constant. We are most interested in estimating $\beta_1$ and $\beta_2$, the partial effects of well being and job satisfaction respectively on job performance.
 
 \subsection{Model Justification}
 % Does the report justify why variables were included and/or excluded?

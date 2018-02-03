@@ -173,7 +173,11 @@ Using the MVN distribution as a model for the data will allow us to impute the m
 \subsection{Model}
 % Was the model written out correctly?
 % Were any greek letters used clearly defined?
-In our model for the data we assume that the measures of job performance, job satisfaction, wellbeing, IQ, age, and tenure are jointly distributed multivariate normal as in equation \ref{mvn}. In particular, this model implicates that each variable is distributed normally and that there is a linear relationship between each pair of variables. Given this model of the data we can easily compute the distribution of job performance given the other covariates and obtain estimates of the effect of job satisfaction and wellbeing on job performance through stochastic multiple imputation.
+In our model for the data we assume that the measures of job performance, job satisfaction, wellbeing, IQ, age, and tenure are jointly distributed multivariate normal as in equation \ref{mvn}. In particular, this model implicates that each variable is distributed normally and that there is a linear relationship between each pair of variables. Given this model of the data we can easily compute the distribution of job performance given the other covariates and obtain estimates of the effect of job satisfaction and well being on job performance through stochastic multiple imputation. 
+$$
+\mathrm{E}(\mathtt{JobPerf}|\mathtt{WellBeing},\mathtt{JobSat},\mathtt{Age},\mathtt{Tenure},\mathtt{IQ}) =  \beta_0 + \beta_1 \mathtt{WellBeing} + \beta_2 \mathtt{JobSat} + \beta_3 \mathtt{Age} + \beta_4\mathtt{Tenrue} + \beta_5 \mathtt{IQ}
+$$
+
 
 \subsection{Model Justification}
 % Does the report justify why variables were included and/or excluded?

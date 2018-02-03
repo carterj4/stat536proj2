@@ -85,7 +85,8 @@ plot(emp, cex = 0.5)
 \end{minipage}
 \caption{Pairs Plot for Employee Data} \label{fig:pairs}
 \end{figure}
-Graphically the data appear to be easy to work with, however there is a problem with missing data. Of the 480 observed employee responses, \Sexpr{miss <- sum(apply(emp,1,FUN = function(x) any(is.na(x)))); miss} or \Sexpr{round(miss/480*100,0)}\% are missing at least one variable. Table \ref{tab:miss} shows the number of missing values in each variable and table \ref{tab:cmiss} shows the total counts of the number of missing values.
+Graphically the data appear to be easy to work with, however there is a problem with missing data. Of the 480 observed employee responses, \Sexpr{miss <- sum(apply(emp,1,FUN = function(x) any(is.na(x)))); miss} or \Sexpr{round(miss/480*100,0)}\% are missing at least one variable. Missing data can be difficult to deal with because the reason is often unknown. Data that are missing at random can be dealt with using imputation techniques, however data that are missing due to a cause significant to the study can mask or obscure what may have otherwise been obvious results. We now investigate properties of the missing observations to see if the missing values appear to be random.\\
+\indent Table \ref{tab:miss} shows the number of missing values in each variable and table \ref{tab:cmiss} shows the total counts of the number of missing values.
 
 \begin{table}[ht]
 \centering
@@ -112,6 +113,8 @@ Number of Observations & 131 & 314 & 35 \\
 \end{tabular}
 \end{minipage}
 \end{table}
+
+
 
 % Are the goals of the analysis clearly stated?
 \section{Methods}

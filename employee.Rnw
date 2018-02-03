@@ -108,7 +108,33 @@ Number of Observations & 131 & 314 & 35 \\
 \end{minipage}
 \end{table}
 
-Missing data can be difficult to deal with because the reason is often unknown. Data that are missing at random can be dealt with using imputation techniques, however data that are missing due to a cause significant to the study can mask or obscure what may have otherwise been obvious results. We now investigate properties of the missing observations to see if the missing values appear to be random. 
+Missing data can be difficult to deal with because the reason is often unknown. Data that are missing at random can be dealt with by only using the complete data, however data that are missing due to a cause significant to the study can mask or obscure what may have otherwise been obvious results. We now investigate properties of the missing observations to see if the missing values appear to be random. We split the data up by when WellBeing was missing or not, then compared the 5 number summaries of each variable to see if the distribution looked different. The procedure was repeated for JobSat and JobPerf. We found that, when JobPerf was missing, both JobSat and WellBeing were lower. This indicates there is non-randomness in the missing data, which means it would be extremely unreliable to use only the complete data. Tables \ref{tab:ps} and \ref{tab:pw} below show the different summaries. In the Methods section we further discuss the imputation method used to correct for this.
+
+\begin{table}[ht]
+\centering
+\caption{JobSat Summaries - JobPerf Missing} \label{tab:ps}
+\centering
+\begin{tabular}{r|rrrrrr}
+\hline
+& Min. & 1st Qu. & Median & Mean & 3rd Qu. & Max. \\
+\hline
+JobPerf Not Missing & 2.67 & 5.6300 & 6.210 & 6.322539 & 7.0400 & 9.37 \\
+JobPerf Missing & 2.97 & 4.1375 & 4.615 & 4.475937 & 4.8825 & 5.05 \\
+\hline
+\end{tabular}
+\end{table}
+\begin{table}
+\centering
+\caption{WellBeing Missing Summaries} \label{tab:pw}
+\begin{tabular}{r|rrrrrr}
+\hline
+& Min. & 1st Qu. & Median & Mean & 3rd Qu. & Max. \\
+\hline
+JobPerf Not Missing & 2.75 & 5.5850 & 6.410 & 6.343402 & 7.1200 & 9.50 \\
+JobPerf Missing & 3.57 & 4.5500 & 5.560 & 5.530000 & 6.0600 & 8.04 \\
+\hline
+\end{tabular}
+\end{table}
 
 
 % Are the goals of the analysis clearly stated?

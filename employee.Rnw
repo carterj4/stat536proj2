@@ -270,7 +270,6 @@ plot(wb.b, type = "l", ylab = "WellBeing", xlab = "Iteration")
 \end{minipage}
 \end{figure}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%% also include trace plots. Decide later how to name variables in paper
 \section{Results}
 % Does the report adequately answer the questions posed in the case study?
 % Were estimates of the parameters and their uncertainties given?

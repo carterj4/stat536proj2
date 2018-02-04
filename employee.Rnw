@@ -58,7 +58,9 @@ load("output.Rbin")
 % Does the report sufficiently describe the background of the problem?
 Companies are invested in having productive employees. Clearly increased employee productivity increases a companies profits. Generally it is thought that happy employees will be more productive, but how much does employee hapiness actually affect job performance? 
 
-\section{Data} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Data}
+\label{data}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Does the report sufficiently describe and plot the data and point out 
 %  any problems/issues? 
 The data consist of responses from 480 university employees on 6 variables described below.
@@ -188,12 +190,14 @@ In our model for the data we assume that the measures of job performance, job sa
 $$
 \mathrm{E}(\mathtt{JobPerf}|\mathtt{WellBeing},\mathtt{JobSat},\mathtt{IQ},\mathtt{Age},\mathtt{Tenure}) =  \beta_0 + \beta_1 \mathtt{WellBeing} + \beta_2 \mathtt{JobSat} + \beta_3 \mathtt{IQ} + \beta_4\mathtt{Age} + \beta_5 \mathtt{Tenure}
 $$
-Here $\beta_0$ represents a baseline job performance for an average employee and each $\beta_i, \; i > 0$ is the the partial effect of each covariate on job performance. For example $\beta_1$ is the expected increase in job performance if well being increases by one, holding all other variables constant. We are most interested in estimating $\beta_1$ and $\beta_2$, the partial effects of well being and job satisfaction respectively on job performance.
+Here $\beta_0$ represents a baseline job performance for an average employee and each $\beta_i, \; i > 0$ is the the partial effect of each covariate on job performance. For example $\beta_1$ is the expected increase in job performance if well being increases by one, holding all other variables constant. We are most interested in estimating $\beta_1$ and $\beta_2$, the partial effects of well being and job satisfaction, respectively, on job performance. 
 
 \subsection{Model Justification}
 % Does the report justify why variables were included and/or excluded?
 % Are the assumptions of the model justified (e.g. via exploratory analysis)?
-Figure \ref{fig:pairs} shows the plots of each pair of covariates in our dataset. There does not appear to be any violation of a linear relationship between any of the 
+Figure \ref{fig:pairs} shows the plots of each pair of covariates in our dataset. There does not appear to be any violation of a linear relationship between any of the covariates. In figure \ref{fig:hist} the distributions of age, IQ, and tenure all appear to be fairly normal. While the distributions of well being, job satisfaction, and job performance do not appear to be perfectly normal, these are the variables which all had missing observations. Given that the missingness is not random as discussed in Section \ref{data}, it is reasonable that the histograms do not appear perfectly normal. Regardless, the general shapes of the histograms for well being, job satisfaction, and job performance are roughly normal, thus accounting for the non-random missingness of the data, we can be confident that our assumptions for a multivariate normal distribution are met.
+
+We include all of the covariates in our model to ...
 \begin{figure}
 \centering
 <<histograms,fig.keep='high',echo=FALSE, fig.asp=.7, fig.width=6, out.width="4in">>=
@@ -207,7 +211,7 @@ hist(employee$Tenure, xlab="Tenure", main=NULL)
 par(mfrow=c(1,1))
 @
 \caption{Histograms of All Covariates}
-\label{hist}
+\label{fig:hist}
 \end{figure}
 <<code, eval=FALSE, echo=FALSE>>=
 load("output.Rbin")
@@ -253,6 +257,9 @@ In order to evaluate how well the model performs on the data, we will report the
 % Did the report summarize how the goals of the study were met?
 % Did the report discuss any shortcomings of the approach/model used?
 % Did the report provide suggestions for “next steps” in the analysis or further questions that may be of interest?
+Through multiple imputation we were able to obtain estimates for the effect of well being and job satisfaction on job performance. From our analysis we found that an increase in well being does have an estimated positive effect on job performance. Job satistisfaction did not have a significant effect on job performance. 
+
+Because we made guesses of the missing values through imputation the variance of our estimates are increased; however, we still have narrow confidence intervals for estimated effects. A complete dataset is always preferred. Well being and Job satistifaction may be less likely to reported for those who are unhappy with their current job, which creates a bias in our estimates. In a repeat study, the University should make a greater effort to reduce the number of missing values.  
 %
 % ---- Bibliography ----
 %

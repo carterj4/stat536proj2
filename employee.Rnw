@@ -154,7 +154,7 @@ Missing & 3.57 & 4.5500 & 5.560 & 5.530000 & 6.0600 & 8.04 \\
 % Is there a description about why this model accomplishes the goals stated above?
 % Is there a description about why this model accounts for the problems/small nuances of the data?
 % Were any explicit or implicit assumptions needed to use the model adequately explained?
-Proceeding with multiple linear regression using only the complete observations in the dataset would effectively throw out 72\% of the observations. This is an extreme loss of information. 
+Proceeding with multiple linear regression using only the complete observations in the dataset would effectively throw out 73\% of the observations. This is an extreme loss of information. 
 
 We will use the multivariate normal distribution (MVN) as a model for our data. The MVN model assumes that the variables of each observation, $Y_i$ are jointly distributed multivariate normal with a mean vector $\mathbf{\mu}$ and covariance matrix $\mathbf{\Sigma}$. We further assume that each observation $\Y_i$ is independent.
 \begin{equation}
@@ -242,9 +242,33 @@ js.df <- (M-1)/js.fmi^2
 mean(js.b) + c(-1,1) * qt(0.975,js.df) * sqrt(js.v)
 @
 \subsection{Performance Evaluation}
+<<scipenon,echo = FALSE>>=
+options(scipen = 999)
+@
+
 % Does the report evaluate how well the model fits the data?
-In order to evaluate how well the model performs on the data, we will report the $R^2$ value, the variance of the model coefficients between imputed datasets, and the traceplots. The average $R^2$ value for this model is \Sexpr{round(mean(r2),3)}. The variance of the estimated JobSat coefficients is \Sexpr{round(var(js.b),4)} and the variance of the estimated WellBeing coefficients is \Sexpr{zapsmall(var(wb.b),4)}, which are 
+In order to evaluate how well the model performs on the data, we will report the $R^2$ value, the variance of the model coefficients between imputed datasets, and the trace plots. The average $R^2$ value for this model is \Sexpr{round(mean(r2),3)} which is decent. The variance of the estimated JobSat coefficients is \Sexpr{round(var(js.b),4)} and the variance of the estimated WellBeing coefficients is \Sexpr{round(var(wb.b),4)}, which are both very small. This indicates that the missing values are not having much of an effect on the estimated coefficients. Trace plots are used to make sure that the coefficients have converged to some region. It is possible that, as the imputed datasets are generated, the values of the estimated coefficients keep increasing or decreasing. Figures \ref{fig:js} and \ref{fig:wb} show that the values have stabilized in an acceptable region, making our estimates valid.
 % If appropriate, does the report describe how well the model predicts?
+<<scipenoff, echo = FALSE>>=
+options(scipen = 0)
+@
+\begin{figure}[ht]
+\centering
+\begin{minipage}{.45\textwidth}
+\centering
+<<js,echo = FALSE>>=
+plot(js.b, type = "l", ylab = "JobSat", xlab = "Iteration")
+@
+\caption{JobSat Trace Plot} \label{fig:js}
+\end{minipage}
+\begin{minipage}{.45\textwidth}
+\centering
+<<wb,echo = FALSE>>=
+plot(wb.b, type = "l", ylab = "WellBeing", xlab = "Iteration")
+@
+\caption{WellBeing Trace Plot} \label{fig:wb}
+\end{minipage}
+\end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%% also include trace plots. Decide later how to name variables in paper
 \section{Results}

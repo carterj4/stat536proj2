@@ -36,12 +36,11 @@ print.vector <- function(x,digits=2) {
   cat("(",paste0(round(x,digits),collapse = ", "),").", sep="")
 }
 my.summary <- function(x) c(mean=mean(x), sd=sd(x), n=length(x))
-load("output.Rbin")
 @
 
 \begin{document}
 \mainmatter
-\title{Verifying the relationship between employee satisfaction and job performance}
+\title{Connecting work performance to employee satisfaction}
 \titlerunning{Credit}
 \author{Brandon Carter, Zach Horton}
 \authorrunning{Carter and Horton}
@@ -49,14 +48,12 @@ load("output.Rbin")
 
 \maketitle
 \begin{abstract}
-%\keywords{}
-% We would like to encourage you to list your keywords within
-% the abstract section using the \keywords{...} command.
+Companies are invested in having productive employees. Clearly increased employee productivity increases a companies profits. Generally it is thought that happy employees will be more productive, but how much does employee hapiness actually affect job performance? We fit a multiple linear regression on an employee satisfaction data set to identify any significant effects on work performance. We discuss and use multiple imputation to account for missing data. We find that job performance is affected by overall well being, but not by job satisfaction.
 \end{abstract}
 
 \section{Introduction}
 % Does the report sufficiently describe the background of the problem?
-Companies are invested in having productive employees. Clearly increased employee productivity increases a companies profits. Generally it is thought that happy employees will be more productive, but how much does employee hapiness actually affect job performance? 
+Productive employees are needed for practically any company to make a profit. A modern philosophy on work culture states that employees who are happy tend to be more productive as well. There is a tradeoff inherent in this idea because incentive programs oriented towards increasing employee happiness cost time and money. Is the cost associated with increasing happiness among employees outweighed by the benefit of higher productivity? In other words, how much does employee hapiness actually affect job performance? In order to address this question we fit a multiple linear regression on several variables using a measure of job performance as the response. The main challenge of this analysis is that a large portion of the observations are missing at least one variable. We discuss an iterative multivariate normal based method of imputation to fill in the missing data while adjusting for the related uncertainty. We discuss results.
 
 \section{Data}
 \label{data}
@@ -213,33 +210,33 @@ par(mfrow=c(1,1))
 \caption{Histograms of All Covariates}
 \label{fig:hist}
 \end{figure}
-<<code, eval=FALSE, echo=FALSE>>=
+<<code, echo=FALSE>>=
 load("output.Rbin")
 
-plot(js.b,type="l")
-plot(js.se,type="l")
-plot(wb.b,type="l")
-plot(wb.se,type="l")
+#plot(js.b,type="l")
+#plot(js.se,type="l")
+#plot(wb.b,type="l")
+#plot(wb.se,type="l")
 
-mean(wb.b)
-var(wb.b)
-sd(wb.b)
+#mean(wb.b)
+#var(wb.b)
+#sd(wb.b)
 
-mean(js.b)
-var(js.b)
-sd(js.b)
+#mean(js.b)
+#var(js.b)
+#sd(js.b)
 
-mean(r2)
-
+#mean(r2)
+M <- 1000
 wb.v <- mean(wb.se^2) + var(wb.b) + var(wb.b)/M
 wb.fmi <- (var(wb.b) + var(wb.b)/M) / wb.v
 wb.df <- (M-1)/wb.fmi^2
-mean(wb.b) + c(-1,1) * qt(0.975,wb.df) * sqrt(wb.v)
+#mean(wb.b) + c(-1,1) * qt(0.975,wb.df) * sqrt(wb.v)
 
 js.v <- mean(js.se^2) + var(js.b) + var(js.b)/M
 js.fmi <- (var(js.b) + var(js.b)/M) / js.v
 js.df <- (M-1)/js.fmi^2
-mean(js.b) + c(-1,1) * qt(0.975,js.df) * sqrt(js.v)
+#mean(js.b) + c(-1,1) * qt(0.975,js.df) * sqrt(js.v)
 @
 \subsection{Performance Evaluation}
 <<scipenon,echo = FALSE>>=
@@ -247,7 +244,21 @@ options(scipen = 999)
 @
 
 % Does the report evaluate how well the model fits the data?
-In order to evaluate how well the model performs on the data, we will report the $R^2$ value, the variance of the model coefficients between imputed datasets, and the trace plots. The average $R^2$ value for this model is \Sexpr{round(mean(r2),3)} which is decent. The variance of the estimated JobSat coefficients is \Sexpr{round(var(js.b),4)} and the variance of the estimated WellBeing coefficients is \Sexpr{round(var(wb.b),4)}, which are both very small. This indicates that the missing values are not having much of an effect on the estimated coefficients. Trace plots are used to make sure that the coefficients have converged to some region. It is possible that, as the imputed datasets are generated, the values of the estimated coefficients keep increasing or decreasing. Figures \ref{fig:js} and \ref{fig:wb} show that the values have stabilized in an acceptable region, making our estimates valid.
+In order to evaluate how well the model performs on the data, we will report the $R^2$ value, the variance of the model coefficients between imputed datasets, and the trace plots. 
+
+\begin{table}[ht]
+\centering
+\begin{tabular}{rrr}
+\hline
+$R^2$ & JobSat Var & WellBeing Var \\
+\hline
+\Sexpr{round(mean(r2),3)} & \Sexpr{round(var(js.b),4)} & \Sexpr{round(var(wb.b),4)} \\
+\hline
+\end{tabular}
+\caption{Table of Model Outputs} \label{tab:mods}
+\end{table}
+
+The average $R^2$ value for this model is decent especially when considering that many of the responses are self-reported and thus quite noisy. The variance of the estimated JobSat and WellBeing between imputed data sets are both very small. This indicates that the missing values are not having much of an effect on the estimated coefficients. Trace plots are used to make sure that the coefficients have converged to some region. It is possible that, as the imputed datasets are generated, the values of the estimated coefficients keep increasing or decreasing. Figures \ref{fig:js} and \ref{fig:wb} show that the values have stabilized in an acceptable region, making our estimates valid.
 % If appropriate, does the report describe how well the model predicts?
 <<scipenoff, echo = FALSE>>=
 options(scipen = 0)
@@ -275,6 +286,20 @@ plot(wb.b, type = "l", ylab = "WellBeing", xlab = "Iteration")
 % Were estimates of the parameters and their uncertainties given?
 % Were the parameter estimates interpreted in the context of the problem?
 % Did the report summarize the main points of the results in non-statistical terms? % Were any figures or tables properly discussed in the text?
+Table \ref{tab:coefs} shows the estimated coefficients of JobSat and WellBeing from fitting the model as well as the 95\% confidence interval bounds. Notice that the interval for WellBeing does not contain zero and is thus significant. This means that for every point higher that someone rates their overall well being, their job performance increases by almost half a point. In simpler terms, it appears that higher well being is related to higher job performance, however it appears that job satisfaction does not affect performance.
+
+\begin{table}[ht]
+\centering
+\begin{tabular}{rrrrr}
+\hline
+Coefficient & Estimate & St. Error & CI Lower & CI Upper \\
+\hline
+WellBeing & \Sexpr{round(mean(wb.b),3)} & \Sexpr{round(sqrt(wb.v),3)} & \Sexpr{round(mean(wb.b) -  qt(0.975,wb.df) * sqrt(wb.v),3)} & \Sexpr{round(mean(wb.b) +  qt(0.975,wb.df) * sqrt(wb.v),3)} \\
+JobSat & \Sexpr{round(mean(js.b),3)} & \Sexpr{round(sqrt(js.v),3)} & \Sexpr{round(mean(js.b) -  qt(0.975,js.df) * sqrt(js.v),3)} & \Sexpr{round(mean(js.b) +  qt(0.975,js.df) * sqrt(js.v),3)} \\
+\hline
+\end{tabular}
+\caption{Model Output Table} \label{tab:coefs}
+\end{table}
 
 \section{Conclusion}
 % Did the report summarize how the goals of the study were met?

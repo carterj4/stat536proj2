@@ -185,18 +185,19 @@ Using the MVN distribution as a model for the data will allow us to impute the m
 \subsection{Model}
 % Was the model written out correctly?
 % Were any greek letters used clearly defined?
-In our model for the data we assume that the measures of job performance, job satisfaction, well-being, IQ, age, and tenure are jointly distributed multivariate normal as in equation \ref{mvn}. In particular, this model implicates that each variable is distributed normally and that there is a linear relationship between each pair of variables. Given this model of the data we can easily compute the distribution of job performance given the other covariates and obtain estimates of the effect of job satisfaction and well-being on job performance through stochastic multiple imputation. 
+In our model for the data we assume that the measures of job performance, job satisfaction, well-being, IQ, age, and tenure are jointly distributed multivariate normal as in equation \ref{mvn}. In particular, this model implicates that each variable is distributed normally and that there is a linear relationship between each pair of variables. We verify these assumptions in section \ref{modjus}. Given this model of the data we can easily impute the missing values. With the complete dataset we can compute the distribution of job performance given the other covariates and obtain estimates of the effect of job satisfaction and well-being on job performance. Through repeated imputation we can account for the effect of many different possible datasets on our estimates. 
 $$
 \mathrm{E}(\mathtt{JobPerf}|\mathtt{WellBeing},\mathtt{JobSat},\mathtt{IQ},\mathtt{Age},\mathtt{Tenure}) =  \beta_0 + \beta_1 \mathtt{WellBeing} + \beta_2 \mathtt{JobSat} + \beta_3 \mathtt{IQ} + \beta_4\mathtt{Age} + \beta_5 \mathtt{Tenure}
 $$
 Here $\beta_0$ represents a baseline job performance for an average employee and each $\beta_i, \; i > 0$ is the the partial effect of each covariate on job performance. For example $\beta_1$ is the expected increase in job performance if well-being increases by one, holding all other variables constant. We are most interested in estimating $\beta_1$ and $\beta_2$, the partial effects of well-being and job satisfaction, respectively, on job performance. 
 
 \subsection{Model Justification}
+\label{modjus}
 % Does the report justify why variables were included and/or excluded?
 % Are the assumptions of the model justified (e.g. via exploratory analysis)?
-Figure \ref{fig:pairs} shows the plots of each pair of covariates in our dataset. There does not appear to be any violation of a linear relationship between any of the covariates. In figure \ref{fig:hist} the distributions of age, IQ, and tenure all appear to be fairly normal. While the distributions of well-being, job satisfaction, and job performance do not appear to be perfectly normal, these are the variables which all had missing observations. Given that the missingness is not random as discussed in Section \ref{data}, it is reasonable that the histograms do not appear perfectly normal. Regardless, the general shapes of the histograms for well-being, job satisfaction, and job performance are roughly normal, thus accounting for the non-random missingness of the data, we can be confident that our assumptions for a multivariate normal distribution are met.
+Figure \ref{fig:pairs} shows the plots of each pair of covariates in our dataset. There does not appear to be any violation of a linear relationship between any of the covariates. In figure \ref{fig:hist} the distributions of age, IQ, and tenure all appear to be fairly normal. The distributions of well-being, job satisfaction, and job performance have aroughly normal shpae though not perfect. We must consider that these are the variables which all had missing observations. Given that the missingness is not random as discussed in section \ref{data}, it is reasonable that the histograms do not appear perfectly normal. Thus we can be confident that our assumptions for a multivariate normal distribution are still met.
 
-We include all of the covariates in our model to ...
+We include all of the covariates in our model by request of the client of the analysis. 
 \begin{figure}
 \centering
 <<histograms,fig.keep='high',echo=FALSE, fig.asp=.7, fig.width=6, out.width="4in">>=
@@ -246,13 +247,13 @@ options(scipen = 999)
 @
 
 % Does the report evaluate how well the model fits the data?
-In order to evaluate how well the model performs on the data, we will report the $R^2$ value, the variance of the model coefficients between imputed datasets, and the trace plots. 
+In order to evaluate how well the model performs on the data, we consider the $R^2$ value, the variance of the model coefficients between imputed datasets, and the trace plots of our estimates. 
 
 \begin{table}[ht]
 \centering
 \begin{tabular}{rrr}
 \hline
-$R^2$ & \texttt{JobSat} Var & \text{WellBeing} Var \\
+$R^2$ & Var \texttt{JobSat} & Var \texttt{WellBeing} \\
 \hline
 \Sexpr{round(mean(r2),3)} & \Sexpr{round(var(js.b),4)} & \Sexpr{round(var(wb.b),4)} \\
 \hline
@@ -260,7 +261,7 @@ $R^2$ & \texttt{JobSat} Var & \text{WellBeing} Var \\
 \caption{Table of Model Outputs} \label{tab:mods}
 \end{table}
 
-The average $R^2$ value for this model is decent especially when considering that many of the responses are self-reported and thus quite noisy. The variance of the estimated job satisfaction and well-being between imputed data sets are both very small. This indicates that the missing values are not having much of an effect on the estimated coefficients. Trace plots are used to make sure that the coefficients have converged to some region. It is possible that, as the imputed datasets are generated, the values of the estimated coefficients keep increasing or decreasing. Figures \ref{fig:js} and \ref{fig:wb} show that the values have stabilized in an acceptable region, making our estimates valid.
+The average $R^2$ value for this model is decent especially when considering that many of the responses are self-reported and thus quite noisy. The variance of the estimated coefficients for the effect of job satisfaction and well-being between imputed data sets are both very small. This indicates that the missing values have little impact on the estimated coefficients. Trace plots are used to make sure that the coefficients have converged to some region and randomly explore the that full region. It is possible that, as the imputed datasets are generated, the values of the estimated coefficients follow a clear increasing or decreasing pattern which indicates a problem in our imputation process. Figures \ref{fig:js} and \ref{fig:wb} show that the values are random within stationary region, validating our estimates.
 % If appropriate, does the report describe how well the model predicts?
 <<scipenoff, echo = FALSE>>=
 options(scipen = 0)
@@ -288,8 +289,9 @@ plot(wb.b, type = "l", ylab = "Well-Being", xlab = "Iteration")
 % Does the report adequately answer the questions posed in the case study?
 % Were estimates of the parameters and their uncertainties given?
 % Were the parameter estimates interpreted in the context of the problem?
-% Did the report summarize the main points of the results in non-statistical terms? % Were any figures or tables properly discussed in the text?
-Table \ref{tab:coefs} shows the estimated coefficients of job satisfaction and well-being from fitting the model as well as the 95\% confidence interval bounds. Notice that the interval for well-being does not contain zero and is thus significant. This means that for every point higher that someone rates their overall well-being, their job performance increases by almost half a point. In simpler terms, it appears that higher well-being is related to higher job performance, however it appears that job satisfaction does not affect performance.
+% Did the report summarize the main points of the results in non-statistical terms?
+% Were any figures or tables properly discussed in the text?
+Table \ref{tab:coefs} shows the estimated coefficients of job satisfaction and well-being from as well as the 95\% confidence interval bounds. These confidence intervals account for the estimated variance of the the coefficients, the variance of our estimates between imputed datasets and Monte Carlo error. Notice that the interval for job satisfaction containes zero, therefore we are unable to conclude that there is a significant effect on job performance. The interval for well-being does not contain zero and therefore is significant. This means that for every point higher that someone rates their overall well-being, we estimate their expected job performance  to increase by \Sexpr{round(mean(wb.b),3)}. In simpler terms, it appears that higher well-being is related to higher job performance, while job satisfaction does not affect performance.
 
 \begin{table}[ht]
 \centering
@@ -310,7 +312,7 @@ Coefficient & Estimate & St. Error & CI Lower & CI Upper \\
 % Did the report provide suggestions for “next steps” in the analysis or further questions that may be of interest?
 Through multiple imputation we were able to obtain estimates for the effect of well-being and job satisfaction on job performance. From our analysis we found that an increase in well-being does have an estimated positive effect on job performance. Job satistisfaction did not have a significant effect on job performance. 
 
-Because we made guesses of the missing values through imputation the variance of our estimates are increased; however, we still have narrow confidence intervals for estimated effects. A complete dataset is always preferred. well-being and Job satistifaction may be less likely to reported for those who are unhappy with their current job, which creates a bias in our estimates. In a repeat study, the University should make a greater effort to reduce the number of missing values.  
+Because we made guesses of the missing values through imputation the variance of our estimates are increased; however, we still have narrow confidence intervals for estimated effects. A complete dataset is always preferred. Well-being and Job satistifaction may be less likely to reported for those who are unhappy with their current job, which may create a bias in our estimates. In a repeat study, the University should make a greater effort to reduce the number of missing values.  
 %
 % ---- Bibliography ----
 %

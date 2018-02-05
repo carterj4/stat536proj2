@@ -48,14 +48,14 @@ my.summary <- function(x) c(mean=mean(x), sd=sd(x), n=length(x))
 
 \maketitle
 \begin{abstract}
-Companies are invested in having productive employees. Clearly increased employee productivity increases a company's profits. Generally it is thought that happy employees will be more productive, but how much does employee hapiness actually affect job performance? We discuss and use multiple imputation to account for missing data and to obtain estimates for the effects of job satisfaction and well being on job performace. We find that job performance is affected by overall well being, but not by job satisfaction.
+Companies are invested in having productive employees. Clearly increased employee productivity increases a company's profits. Generally it is thought that happy employees will be more productive, but how much does employee hapiness actually affect job performance? We discuss and use multiple imputation to account for missing data and to obtain estimates for the effects of job satisfaction and well-being on job performace. We find that job performance is affected by overall well-being, but not by job satisfaction.
 \end{abstract}
 
 \section{Introduction}
 % Does the report sufficiently describe the background of the problem?
 Productive employees are needed for practically any company to make a profit. A modern philosophy on work culture states that employees who are happy tend to be more productive as well. There is a tradeoff inherent in this idea because incentive programs oriented towards increasing employee happiness cost time and money. Is the cost associated with increasing happiness among employees outweighed by the benefit of higher productivity? In other words, how much does employee hapiness actually affect job performance? In order to address this question we fit a multiple linear regression on several variables using a measure of job performance as the response. 
 
-The main challenge of this analysis is that a large portion of the observations are missing at least one variable (see section \ref{data}). In section \ref{methods} we discuss an iterative multivariate normal based method of imputation to fill in the missing data which allows us to adjust for the uncertainty of the missing data. We evaluate the the performance of our model through $R^2$ and looking at the variance of our estimates from our Monte Carlo imputation. Section \ref{results} reports our estimates for the effect of job satisfaction and well being on job performance. 
+The main challenge of this analysis is that a large portion of the observations are missing at least one variable (see section \ref{data}). In section \ref{methods} we discuss an iterative multivariate normal based method of imputation to fill in the missing data which allows us to adjust for the uncertainty of the missing data. We evaluate the the performance of our model through $R^2$ and looking at the variance of our estimates from our Monte Carlo imputation. Section \ref{results} reports our estimates for the effect of job satisfaction and well-being on job performance. 
 
 \section{Data}
 \label{data}
@@ -68,7 +68,7 @@ The data consist of responses from 480 university employees on 6 variables descr
 \texttt{Age} & - & The age of the employee measured in years \\
 \texttt{Tenure}& - & Number of years employed at the university \\
 \texttt{WellBeing}& - & Score from 1 to 10 measuring the happiness of the employee \\
-\texttt{JobSat}& - & Score from 1 to 10 measureing the satisfaction of the employee \\
+\texttt{JobSat}& - & Score from 1 to 10 measuring the satisfaction of the employee \\
 \texttt{IQ}& - & The IQ score of the employee \\
 \texttt{JobPerf}& - & Score from 1 to 10 measuring the performance of the employee
 \end{tabular}
@@ -92,7 +92,7 @@ pairs(JobPerf ~ WellBeing + JobSat + IQ + Age + Tenure, data=emp, cex=0.5)
 \end{minipage}
 \caption{Pairs Plot for Employee Data} \label{fig:pairs}
 \end{figure}
-Graphically the data appear to be easy to work with, however there is a problem with missing data. Of the 480 observed employee responses, \Sexpr{miss <- sum(apply(emp,1,FUN = function(x) any(is.na(x)))); miss} or \Sexpr{round(miss/480*100,0)}\% are missing at least one variable. Table \ref{tab:miss} shows the number of missing values in each variable and table \ref{tab:cmiss} shows the total counts of the number of missing values. 
+Graphically the data appear to be easy to work with, however there are many missing data points for wellb being, job satisfaction and  job performance. Of the 480 observed employee responses, \Sexpr{miss <- sum(apply(emp,1,FUN = function(x) any(is.na(x)))); miss} or \Sexpr{round(miss/480*100,0)}\% are missing at least one variable. Table \ref{tab:miss} shows the number of missing values in each variable and table \ref{tab:cmiss} shows the total number of observations missing x number of variables. 
 
 \begin{table}[ht]
 \centering
@@ -100,7 +100,7 @@ Graphically the data appear to be easy to work with, however there is a problem 
 \centering
 \begin{tabular}{rrrrrrr}
 \hline
-& Age & Tenure & WellBeing & JobSat & IQ & JobPerf\\
+& \texttt{Age} & \texttt{Tenure} & \texttt{WellBeing} & \texttt{JobSat} & \texttt{IQ} & \texttt{JobPerf}\\
 \hline
 & 0 & 0 & 160 & 160 & 0 & 64 \\
 \hline
@@ -120,8 +120,8 @@ Number of Observations & 131 & 314 & 35 \\
 \end{minipage}
 \end{table}
 
-At the end of the day, we want to be able to quantify the relationship between JobPerf and the other variables, to see if happiness really influences work performance. Finding a thoughtful way to deal with missing data will be key then because the data are missing in the variables we are most interested in. Missing data can be difficult to deal with because the reason is often unknown. Data that are missing at random can be dealt with by only using the complete data, however data that are missing due to a cause significant to the study can mask or obscure what may have otherwise been obvious results. \\
-\indent We now investigate properties of the missing observations to see if the missing values appear to be random. We split the data up by when WellBeing was missing or not, then compared the 5 number summaries of each variable to see if the distribution looked different. The procedure was repeated for JobSat and JobPerf. We found that, when JobPerf was missing, both JobSat and WellBeing were lower. This indicates there is non-randomness in the missing data, which means it would be extremely unreliable to use only the complete data. Tables \ref{tab:ps} and \ref{tab:pw} below show the different summaries. In the Methods section we further discuss the imputation method used to correct for this.
+At the end of the day, we want to be able to quantify the relationship between job performance and the other variables, to see if happiness really influences work performance. Finding a thoughtful way to deal with missing data will be key then because the data are missing in the variables we are most interested in. Missing data can be difficult to deal with because the reason is often unknown. Data that are missing at random can be dealt with by only using the complete data, however data that are missing due to a cause significant to the study can mask or obscure what may have otherwise been obvious results. \\
+\indent We now investigate properties of the missing observations to see if the missing values appear to be random. We split the data up by when well-being was missing or not, then compared the 5 number summaries of each variable to see if the distribution looked different. The procedure was repeated for job satisfaction and job performance. We found that, when job performance was missing, both job satisfaction and well-being were lower. This indicates there is non-randomness in the missing data, which means it would be extremely unreliable to use only the complete data. Tables \ref{tab:ps} and \ref{tab:pw} below show the different summaries. In the Methods section we further discuss the imputation method used to correct for this.
 
 \begin{table}[ht]
 \centering
@@ -145,7 +145,7 @@ Not Missing & 2.75 & 5.5850 & 6.410 & 6.343402 & 7.1200 & 9.50 \\
 Missing & 3.57 & 4.5500 & 5.560 & 5.530000 & 6.0600 & 8.04 \\
 \hline
 \end{tabular}
-\caption{Well Being Summaries by Job Performance Missing} \label{tab:pw}
+\caption{Well-Being Summaries by Job Performance Missing} \label{tab:pw}
 \end{table}
 % Are the goals of the analysis clearly stated?
 
@@ -180,22 +180,22 @@ These conditional distributions will allow us to sample values for the missing d
 
 A single imputation of the dataset give only a single guess of the possible missing values. To explore the a larger space of missing values the imputations can be sequentially repeated. We repeat the imputation process by updating the estimate for $\boldsymbol{\mu}$ and $\mathbf{\Sigma}$ using the complete imputed dataset, then new values are drawn from the conditional distributions for the missing values of the dataset. At each iteration of the imputing, estimates for the coefficients of the model and their standard errors are obtained. 
 
-Using the MVN distribution as a model for the data will allow us to impute the missing values in our dataset and then obtain estimates for the effect of job satisfaction and well being on job performance. Repeating the imputations multiple times will allow us to explore a whole range of possible values for the missing datapoints and thus see how different datasets affect our estimates of the relationship between job satisfaction, wellbeing and job performance. 
+Using the MVN distribution as a model for the data will allow us to impute the missing values in our dataset and then obtain estimates for the effect of job satisfaction and well-being on job performance. Repeating the imputations multiple times will allow us to explore a whole range of possible values for the missing datapoints and thus see how different datasets affect our estimates of the relationship between job satisfaction, well-being and job performance. 
 
 
 \subsection{Model}
 % Was the model written out correctly?
 % Were any greek letters used clearly defined?
-In our model for the data we assume that the measures of job performance, job satisfaction, wellbeing, IQ, age, and tenure are jointly distributed multivariate normal as in equation \ref{mvn}. In particular, this model implicates that each variable is distributed normally and that there is a linear relationship between each pair of variables. Given this model of the data we can easily compute the distribution of job performance given the other covariates and obtain estimates of the effect of job satisfaction and well being on job performance through stochastic multiple imputation. 
+In our model for the data we assume that the measures of job performance, job satisfaction, well-being, IQ, age, and tenure are jointly distributed multivariate normal as in equation \ref{mvn}. In particular, this model implicates that each variable is distributed normally and that there is a linear relationship between each pair of variables. Given this model of the data we can easily compute the distribution of job performance given the other covariates and obtain estimates of the effect of job satisfaction and well-being on job performance through stochastic multiple imputation. 
 $$
 \mathrm{E}(\mathtt{JobPerf}|\mathtt{WellBeing},\mathtt{JobSat},\mathtt{IQ},\mathtt{Age},\mathtt{Tenure}) =  \beta_0 + \beta_1 \mathtt{WellBeing} + \beta_2 \mathtt{JobSat} + \beta_3 \mathtt{IQ} + \beta_4\mathtt{Age} + \beta_5 \mathtt{Tenure}
 $$
-Here $\beta_0$ represents a baseline job performance for an average employee and each $\beta_i, \; i > 0$ is the the partial effect of each covariate on job performance. For example $\beta_1$ is the expected increase in job performance if well being increases by one, holding all other variables constant. We are most interested in estimating $\beta_1$ and $\beta_2$, the partial effects of well being and job satisfaction, respectively, on job performance. 
+Here $\beta_0$ represents a baseline job performance for an average employee and each $\beta_i, \; i > 0$ is the the partial effect of each covariate on job performance. For example $\beta_1$ is the expected increase in job performance if well-being increases by one, holding all other variables constant. We are most interested in estimating $\beta_1$ and $\beta_2$, the partial effects of well-being and job satisfaction, respectively, on job performance. 
 
 \subsection{Model Justification}
 % Does the report justify why variables were included and/or excluded?
 % Are the assumptions of the model justified (e.g. via exploratory analysis)?
-Figure \ref{fig:pairs} shows the plots of each pair of covariates in our dataset. There does not appear to be any violation of a linear relationship between any of the covariates. In figure \ref{fig:hist} the distributions of age, IQ, and tenure all appear to be fairly normal. While the distributions of well being, job satisfaction, and job performance do not appear to be perfectly normal, these are the variables which all had missing observations. Given that the missingness is not random as discussed in Section \ref{data}, it is reasonable that the histograms do not appear perfectly normal. Regardless, the general shapes of the histograms for well being, job satisfaction, and job performance are roughly normal, thus accounting for the non-random missingness of the data, we can be confident that our assumptions for a multivariate normal distribution are met.
+Figure \ref{fig:pairs} shows the plots of each pair of covariates in our dataset. There does not appear to be any violation of a linear relationship between any of the covariates. In figure \ref{fig:hist} the distributions of age, IQ, and tenure all appear to be fairly normal. While the distributions of well-being, job satisfaction, and job performance do not appear to be perfectly normal, these are the variables which all had missing observations. Given that the missingness is not random as discussed in Section \ref{data}, it is reasonable that the histograms do not appear perfectly normal. Regardless, the general shapes of the histograms for well-being, job satisfaction, and job performance are roughly normal, thus accounting for the non-random missingness of the data, we can be confident that our assumptions for a multivariate normal distribution are met.
 
 We include all of the covariates in our model to ...
 \begin{figure}
@@ -203,7 +203,7 @@ We include all of the covariates in our model to ...
 <<histograms,fig.keep='high',echo=FALSE, fig.asp=.7, fig.width=6, out.width="4in">>=
 par(mfrow=c(2,3))
 hist(employee$JobPerf,xlab="Job Performance", main=NULL)
-hist(employee$WellBeing,xlab="Well Being", main=NULL)
+hist(employee$WellBeing,xlab="Well-Being", main=NULL)
 hist(employee$JobSat, xlab="Job Satisfaction", main=NULL)
 hist(employee$IQ, xlab="IQ", main=NULL)
 hist(employee$Age, xlab="Age", main=NULL)
@@ -253,7 +253,7 @@ In order to evaluate how well the model performs on the data, we will report the
 \centering
 \begin{tabular}{rrr}
 \hline
-$R^2$ & JobSat Var & WellBeing Var \\
+$R^2$ & \texttt{JobSat} Var & \text{WellBeing} Var \\
 \hline
 \Sexpr{round(mean(r2),3)} & \Sexpr{round(var(js.b),4)} & \Sexpr{round(var(wb.b),4)} \\
 \hline
@@ -261,7 +261,7 @@ $R^2$ & JobSat Var & WellBeing Var \\
 \caption{Table of Model Outputs} \label{tab:mods}
 \end{table}
 
-The average $R^2$ value for this model is decent especially when considering that many of the responses are self-reported and thus quite noisy. The variance of the estimated JobSat and WellBeing between imputed data sets are both very small. This indicates that the missing values are not having much of an effect on the estimated coefficients. Trace plots are used to make sure that the coefficients have converged to some region. It is possible that, as the imputed datasets are generated, the values of the estimated coefficients keep increasing or decreasing. Figures \ref{fig:js} and \ref{fig:wb} show that the values have stabilized in an acceptable region, making our estimates valid.
+The average $R^2$ value for this model is decent especially when considering that many of the responses are self-reported and thus quite noisy. The variance of the estimated job satisfaction and well-being between imputed data sets are both very small. This indicates that the missing values are not having much of an effect on the estimated coefficients. Trace plots are used to make sure that the coefficients have converged to some region. It is possible that, as the imputed datasets are generated, the values of the estimated coefficients keep increasing or decreasing. Figures \ref{fig:js} and \ref{fig:wb} show that the values have stabilized in an acceptable region, making our estimates valid.
 % If appropriate, does the report describe how well the model predicts?
 <<scipenoff, echo = FALSE>>=
 options(scipen = 0)
@@ -271,16 +271,16 @@ options(scipen = 0)
 \begin{minipage}{.45\textwidth}
 \centering
 <<js,echo = FALSE>>=
-plot(js.b, type = "l", ylab = "JobSat", xlab = "Iteration")
+plot(js.b, type = "l", ylab = "Job Satisfaction", xlab = "Iteration")
 @
-\caption{JobSat Trace Plot} \label{fig:js}
+\caption{Job Satisfaction Trace Plot} \label{fig:js}
 \end{minipage}
 \begin{minipage}{.45\textwidth}
 \centering
 <<wb,echo = FALSE>>=
-plot(wb.b, type = "l", ylab = "WellBeing", xlab = "Iteration")
+plot(wb.b, type = "l", ylab = "Well-Being", xlab = "Iteration")
 @
-\caption{WellBeing Trace Plot} \label{fig:wb}
+\caption{Well-Being Trace Plot} \label{fig:wb}
 \end{minipage}
 \end{figure}
 
@@ -290,7 +290,7 @@ plot(wb.b, type = "l", ylab = "WellBeing", xlab = "Iteration")
 % Were estimates of the parameters and their uncertainties given?
 % Were the parameter estimates interpreted in the context of the problem?
 % Did the report summarize the main points of the results in non-statistical terms? % Were any figures or tables properly discussed in the text?
-Table \ref{tab:coefs} shows the estimated coefficients of JobSat and WellBeing from fitting the model as well as the 95\% confidence interval bounds. Notice that the interval for WellBeing does not contain zero and is thus significant. This means that for every point higher that someone rates their overall well being, their job performance increases by almost half a point. In simpler terms, it appears that higher well being is related to higher job performance, however it appears that job satisfaction does not affect performance.
+Table \ref{tab:coefs} shows the estimated coefficients of job satisfaction and well-being from fitting the model as well as the 95\% confidence interval bounds. Notice that the interval for well-being does not contain zero and is thus significant. This means that for every point higher that someone rates their overall well-being, their job performance increases by almost half a point. In simpler terms, it appears that higher well-being is related to higher job performance, however it appears that job satisfaction does not affect performance.
 
 \begin{table}[ht]
 \centering
@@ -298,8 +298,8 @@ Table \ref{tab:coefs} shows the estimated coefficients of JobSat and WellBeing f
 \hline
 Coefficient & Estimate & St. Error & CI Lower & CI Upper \\
 \hline
-WellBeing & \Sexpr{round(mean(wb.b),3)} & \Sexpr{round(sqrt(wb.v),3)} & \Sexpr{round(mean(wb.b) -  qt(0.975,wb.df) * sqrt(wb.v),3)} & \Sexpr{round(mean(wb.b) +  qt(0.975,wb.df) * sqrt(wb.v),3)} \\
-JobSat & \Sexpr{round(mean(js.b),3)} & \Sexpr{round(sqrt(js.v),3)} & \Sexpr{round(mean(js.b) -  qt(0.975,js.df) * sqrt(js.v),3)} & \Sexpr{round(mean(js.b) +  qt(0.975,js.df) * sqrt(js.v),3)} \\
+\texttt{WellBeing} & \Sexpr{round(mean(wb.b),3)} & \Sexpr{round(sqrt(wb.v),3)} & \Sexpr{round(mean(wb.b) -  qt(0.975,wb.df) * sqrt(wb.v),3)} & \Sexpr{round(mean(wb.b) +  qt(0.975,wb.df) * sqrt(wb.v),3)} \\
+\texttt{JobSat} & \Sexpr{round(mean(js.b),3)} & \Sexpr{round(sqrt(js.v),3)} & \Sexpr{round(mean(js.b) -  qt(0.975,js.df) * sqrt(js.v),3)} & \Sexpr{round(mean(js.b) +  qt(0.975,js.df) * sqrt(js.v),3)} \\
 \hline
 \end{tabular}
 \caption{Model Output Table} \label{tab:coefs}
@@ -309,9 +309,9 @@ JobSat & \Sexpr{round(mean(js.b),3)} & \Sexpr{round(sqrt(js.v),3)} & \Sexpr{roun
 % Did the report summarize how the goals of the study were met?
 % Did the report discuss any shortcomings of the approach/model used?
 % Did the report provide suggestions for “next steps” in the analysis or further questions that may be of interest?
-Through multiple imputation we were able to obtain estimates for the effect of well being and job satisfaction on job performance. From our analysis we found that an increase in well being does have an estimated positive effect on job performance. Job satistisfaction did not have a significant effect on job performance. 
+Through multiple imputation we were able to obtain estimates for the effect of well-being and job satisfaction on job performance. From our analysis we found that an increase in well-being does have an estimated positive effect on job performance. Job satistisfaction did not have a significant effect on job performance. 
 
-Because we made guesses of the missing values through imputation the variance of our estimates are increased; however, we still have narrow confidence intervals for estimated effects. A complete dataset is always preferred. Well being and Job satistifaction may be less likely to reported for those who are unhappy with their current job, which creates a bias in our estimates. In a repeat study, the University should make a greater effort to reduce the number of missing values.  
+Because we made guesses of the missing values through imputation the variance of our estimates are increased; however, we still have narrow confidence intervals for estimated effects. A complete dataset is always preferred. well-being and Job satistifaction may be less likely to reported for those who are unhappy with their current job, which creates a bias in our estimates. In a repeat study, the University should make a greater effort to reduce the number of missing values.  
 %
 % ---- Bibliography ----
 %

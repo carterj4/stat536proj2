@@ -153,29 +153,29 @@ Missing & 3.57 & 4.5500 & 5.560 & 5.530000 & 6.0600 & 8.04 \\
 % Were any explicit or implicit assumptions needed to use the model adequately explained?
 Proceeding with multiple linear regression using only the complete observations in the dataset would effectively throw out 73\% of the observations. This is an extreme loss of information. 
 
-We will use the multivariate normal distribution (MVN) as a model for our data. The MVN model assumes that the variables of each observation, $Y_i$ are jointly distributed multivariate normal with a mean vector $\mathbf{\mu}$ and covariance matrix $\mathbf{\Sigma}$. We further assume that each observation $\Y_i$ is independent.
+We will use the multivariate normal distribution (MVN) as a model for our data. The MVN model assumes that the variables of each observation, $Y_i$ are jointly distributed multivariate normal with a mean vector $\boldsymbol{\mu}$ and covariance matrix $\mathbf{\Sigma}$. We further assume that each observation $\Y_i$ is independent.
 \begin{equation}
-\Y_i \overset{\mathrm{iid}}{\sim} \mathcal{MVN}(\mathbf{\mu},\mathbf{\Sigma})
+\Y_i \overset{\mathrm{iid}}{\sim} \mathcal{MVN}(\boldsymbol{\mu},\mathbf{\Sigma})
 \label{mvn}
 \end{equation}
 If we partition the observation vector into $\Y_1$ and $\Y_2$ and the covariance matrix we can find the conditional distribution of $\Y_1|\Y_2$. 
 $$
-\Y_1|\Y_2 \sim \mathcal{MVN}(\mathbf{\mu}_{1|2},\mathbf{\Sigma}_{1|2})
+\Y_1|\Y_2 \sim \mathcal{MVN}(\boldsymbol{\mu}_{1|2},\mathbf{\Sigma}_{1|2})
 $$
 where 
 \begin{align*}
-\mathbf{\mu}_{1|2} &= \mathbf{\mu}_1 + \mathbf{\Sigma}_{12} \mathbf{\Sigma}_{22}^{-1} (\Y_2 - \mathbf{\mu}_2) \\
+\boldsymbol{\mu}_{1|2} &= \boldsymbol{\mu}_1 + \mathbf{\Sigma}_{12} \mathbf{\Sigma}_{22}^{-1} (\Y_2 - \boldsymbol{\mu}_2) \\
 \mathbf{\Sigma}_{1|2} &= \mathbf{\Sigma}_{11} + \mathbf{\Sigma}_{12}\mathbf{\Sigma}_{22}^{-1}\mathbf{\Sigma}_{21}\\
 \mathbf{\Sigma}_{ij} &= \mathrm{cov}(\Y_i,\Y_j)
 \end{align*}
-Using this result we can model any combination of missing values for an obsevation conditional on the known values. We will use the unbiased maximum likelihood estimates for $\mathbf{\mu}$ and $\mathbf{\Sigma}$.
+Using this result we can model any combination of missing values for an obsevation conditional on the known values. We will use the unbiased maximum likelihood estimates for $\boldsymbol{\mu}$ and $\mathbf{\Sigma}$.
 \begin{align*}
-\hat{\mathbf{\mu}} &= \frac{1}{n}\sum_{i=1}^{n} \Y_i \\
-\hat{\mathbf{\Sigma}} &= \frac{1}{n-1}\sum_{i=1}^{n} (\Y_i - \hat{\mathbf{\mu}})(\Y_i - \hat{\mathbf{\mu}})'
+\hat{\boldsymbol{\mu}} &= \frac{1}{n}\sum_{i=1}^{n} \Y_i \\
+\hat{\mathbf{\Sigma}} &= \frac{1}{n-1}\sum_{i=1}^{n} (\Y_i - \hat{\boldsymbol{\mu}})(\Y_i - \hat{\boldsymbol{\mu}})'
 \end{align*}
 These conditional distributions will allow us to sample values for the missing data, imputing the dataset with an informed guess for the missing value. After the dataset is complete, estimates of the regression coefficients (ie the partial linear effect of a covariate on the desired repsonse variable) can be obtained. 
 
-A single imputation of the dataset give only a single guess of the possible missing values. To explore the a larger space of missing values the imputations can be sequentially repeated. We repeat the imputation process by updating the estimate for $\mathbf{\mu}$ and $\mathbf{\Sigma}$ using the complete imputed dataset, then new values are drawn from the conditional distributions for the missing values of the dataset. At each iteration of the imputing, estimates for the coefficients of the model and their standard errors are obtained. 
+A single imputation of the dataset give only a single guess of the possible missing values. To explore the a larger space of missing values the imputations can be sequentially repeated. We repeat the imputation process by updating the estimate for $\boldsymbol{\mu}$ and $\mathbf{\Sigma}$ using the complete imputed dataset, then new values are drawn from the conditional distributions for the missing values of the dataset. At each iteration of the imputing, estimates for the coefficients of the model and their standard errors are obtained. 
 
 Using the MVN distribution as a model for the data will allow us to impute the missing values in our dataset and then obtain estimates for the effect of job satisfaction and well being on job performance. Repeating the imputations multiple times will allow us to explore a whole range of possible values for the missing datapoints and thus see how different datasets affect our estimates of the relationship between job satisfaction, wellbeing and job performance. 
 

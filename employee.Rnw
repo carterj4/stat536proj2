@@ -53,7 +53,9 @@ Companies are invested in having productive employees. Clearly increased employe
 
 \section{Introduction}
 % Does the report sufficiently describe the background of the problem?
-Productive employees are needed for practically any company to make a profit. A modern philosophy on work culture states that employees who are happy tend to be more productive as well. There is a tradeoff inherent in this idea because incentive programs oriented towards increasing employee happiness cost time and money. Is the cost associated with increasing happiness among employees outweighed by the benefit of higher productivity? In other words, how much does employee hapiness actually affect job performance? In order to address this question we fit a multiple linear regression on several variables using a measure of job performance as the response. The main challenge of this analysis is that a large portion of the observations are missing at least one variable. We discuss an iterative multivariate normal based method of imputation to fill in the missing data while adjusting for the related uncertainty. We discuss results.
+Productive employees are needed for practically any company to make a profit. A modern philosophy on work culture states that employees who are happy tend to be more productive as well. There is a tradeoff inherent in this idea because incentive programs oriented towards increasing employee happiness cost time and money. Is the cost associated with increasing happiness among employees outweighed by the benefit of higher productivity? In other words, how much does employee hapiness actually affect job performance? In order to address this question we fit a multiple linear regression on several variables using a measure of job performance as the response. 
+
+The main challenge of this analysis is that a large portion of the observations are missing at least one variable (see section \ref{data}). In section \ref{methods} we discuss an iterative multivariate normal based method of imputation to fill in the missing data which allows us to adjust for the uncertainty of the missing data. We evaluate the the performance of our model through $R^2$ and looking at the variance of our estimates from our Monte Carlo imputation. Section \ref{results} reports our estimates for the effect of job satisfaction and well being on job performance. 
 
 \section{Data}
 \label{data}
@@ -148,6 +150,7 @@ Missing & 3.57 & 4.5500 & 5.560 & 5.530000 & 6.0600 & 8.04 \\
 % Are the goals of the analysis clearly stated?
 
 \section{Methods}
+\label{methods}
 % Is there a description about why this model accomplishes the goals stated above?
 % Is there a description about why this model accounts for the problems/small nuances of the data?
 % Were any explicit or implicit assumptions needed to use the model adequately explained?
@@ -282,6 +285,7 @@ plot(wb.b, type = "l", ylab = "WellBeing", xlab = "Iteration")
 \end{figure}
 
 \section{Results}
+\label{results}
 % Does the report adequately answer the questions posed in the case study?
 % Were estimates of the parameters and their uncertainties given?
 % Were the parameter estimates interpreted in the context of the problem?

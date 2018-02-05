@@ -126,7 +126,6 @@ At the end of the day, we want to be able to quantify the relationship between j
 =======
 At the end of the day, we want to be able to quantify the relationship between job performance and the other variables, to see if happiness really influences work performance. Finding a thoughtful way to deal with missing data will be key because the data are missing in the variables we are most interested in. Missing data can be difficult to deal with because the reason for missingness is often unknown. Data that are missing at random can be dealt with by simply using the complete observations; however, data not missing at random can mask or obscure the true effect of a variable. \\
 \indent We now investigate properties of the missing observations to see if the missing values appear to be random. We treated the missingness of well-being as a categorical variable in order to compare the distribution of each variable by whether well-being is missing or not. The procedure was repeated for job satisfaction and job performance. We found that, when job performance was missing, both job satisfaction and well-being were lower. In particular, the maximum score for job satisfaction when job performance was missing was lower than the first quartile for job satisfaction when job performance was not missing.  This indicates there is non-randomness in the missing data, which means it would be extremely unreliable to use only the complete observations for our analysis. Tables \ref{tab:ps} and \ref{tab:pw} below show the different summaries. In the section \ref{methods} we further discuss the imputation method used to correct for this.
->>>>>>> 847f92e8798f955e721201b19e601516811745ae
 
 \begin{table}[ht]
 \centering
@@ -159,9 +158,9 @@ Missing & 3.57 & 4.5500 & 5.560 & 5.530000 & 6.0600 & 8.04 \\
 % Is there a description about why this model accomplishes the goals stated above?
 % Is there a description about why this model accounts for the problems/small nuances of the data?
 % Were any explicit or implicit assumptions needed to use the model adequately explained?
-Proceeding with multiple linear regression using only the complete observations in the dataset would effectively throw out 73\% of the observations. This is an extreme loss of information. 
+Proceeding with multiple linear regression using only the complete observations in the dataset would effectively throw out 73\% of the observations. This is an extreme loss of information and in addition due to the non random missingness could severely bias our results.
 
-We will use the multivariate normal distribution (MVN) as a model for our data. The MVN model assumes that the variables of each observation, $Y_i$ are jointly distributed multivariate normal with a mean vector $\boldsymbol{\mu}$ and covariance matrix $\mathbf{\Sigma}$. We further assume that each observation $\Y_i$ is independent.
+We will use the multivariate normal distribution (MVN) as a model for our data. This model will allow us to intelligently impute, or fill in, our missing data. The MVN model assumes that the variables of each observation, $\Y_i$ are jointly distributed multivariate normal with a mean vector $\boldsymbol{\mu}$ and covariance matrix $\mathbf{\Sigma}$. We further assume that each observation $\Y_i$ is independent. 
 \begin{equation}
 \Y_i \overset{\mathrm{iid}}{\sim} \mathcal{MVN}(\boldsymbol{\mu},\mathbf{\Sigma})
 \label{mvn}
@@ -176,14 +175,12 @@ where
 \mathbf{\Sigma}_{1|2} &= \mathbf{\Sigma}_{11} + \mathbf{\Sigma}_{12}\mathbf{\Sigma}_{22}^{-1}\mathbf{\Sigma}_{21}\\
 \mathbf{\Sigma}_{ij} &= \mathrm{cov}(\Y_i,\Y_j)
 \end{align*}
-Using this result we can model any combination of missing values for an obsevation conditional on the known values. We will use the unbiased maximum likelihood estimates for $\boldsymbol{\mu}$ and $\mathbf{\Sigma}$.
+Using this result we can model any combination of missing values for an observation conditional on the known values. These conditional distributions will allow us to sample values for the missing data that follow the correlation between variables. This form of imputing is our best informed guess for the missing values. After the dataset is complete, estimates of the regression coefficients (ie the partial linear effect of a covariate on job satisfaction) can be obtained. We will use the unbiased maximum likelihood estimates for $\boldsymbol{\mu}$ and $\mathbf{\Sigma}$.
 \begin{align*}
 \hat{\boldsymbol{\mu}} &= \frac{1}{n}\sum_{i=1}^{n} \Y_i \\
 \hat{\mathbf{\Sigma}} &= \frac{1}{n-1}\sum_{i=1}^{n} (\Y_i - \hat{\boldsymbol{\mu}})(\Y_i - \hat{\boldsymbol{\mu}})'
 \end{align*}
-These conditional distributions will allow us to sample values for the missing data, imputing the dataset with an informed guess for the missing value. After the dataset is complete, estimates of the regression coefficients (ie the partial linear effect of a covariate on the desired repsonse variable) can be obtained. 
-
-A single imputation of the dataset give only a single guess of the possible missing values. To explore the a larger space of missing values the imputations can be sequentially repeated. We repeat the imputation process by updating the estimate for $\boldsymbol{\mu}$ and $\mathbf{\Sigma}$ using the complete imputed dataset, then new values are drawn from the conditional distributions for the missing values of the dataset. At each iteration of the imputing, estimates for the coefficients of the model and their standard errors are obtained. 
+\indent A single imputation of the dataset gives only a single guess of the possible missing values. To explore the full region of possible missing values the imputations can be sequentially repeated. We repeat the imputation process by updating the estimate for $\boldsymbol{\mu}$ and $\mathbf{\Sigma}$ using the complete imputed dataset, then new values are drawn from the updated conditional distributions for the missing values of the dataset. At each iteration of the imputation, estimates for the coefficients of the model and their standard errors are saved. 
 
 Using the MVN distribution as a model for the data will allow us to impute the missing values in our dataset and then obtain estimates for the effect of job satisfaction and well-being on job performance. Repeating the imputations multiple times will allow us to explore a whole range of possible values for the missing datapoints and thus see how different datasets affect our estimates of the relationship between job satisfaction, well-being and job performance. 
 

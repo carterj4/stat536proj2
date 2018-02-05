@@ -24,6 +24,7 @@
 \numberwithin{equation}{section}
 
 \usepackage{setspace}
+\setlength{\belowcaptionskip}{-20pt}
 %\onehalfspacing
 
 <<initiate,echo=FALSE>>=

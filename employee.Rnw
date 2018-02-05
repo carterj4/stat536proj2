@@ -48,7 +48,7 @@ my.summary <- function(x) c(mean=mean(x), sd=sd(x), n=length(x))
 
 \maketitle
 \begin{abstract}
-Companies are invested in having productive employees. Clearly increased employee productivity increases a companies profits. Generally it is thought that happy employees will be more productive, but how much does employee hapiness actually affect job performance? We fit a multiple linear regression on an employee satisfaction data set to identify any significant effects on work performance. We discuss and use multiple imputation to account for missing data. We find that job performance is affected by overall well being, but not by job satisfaction.
+Companies are invested in having productive employees. Clearly increased employee productivity increases a company's profits. Generally it is thought that happy employees will be more productive, but how much does employee hapiness actually affect job performance? We discuss and use multiple imputation to account for missing data and to obtain estimates for the effects of job satisfaction and well being on job performace. We find that job performance is affected by overall well being, but not by job satisfaction.
 \end{abstract}
 
 \section{Introduction}
